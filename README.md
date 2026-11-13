@@ -87,7 +87,8 @@ Section 3 (group system) lives in the team's shared record, not here.
 | T2 | [pgvector](https://github.com/pgvector/pgvector) README | Vector storage in PostgreSQL | ☐ |
 | T3 | [Neo4j graph database concepts](https://neo4j.com/docs/getting-started/graph-database/) | Nodes, relationships, properties | ☐ |
 | T4 | [SQLite FTS5](https://www.sqlite.org/fts5.html) | Keyword-search baseline | ☐ |
-| T5 | [Sentence-Transformers docs](https://www.sbert.net/) | Local embedding models | ☐ |
+| T5 | [Sentence-Transformers docs](https://www.sbert.net/) | Local embedding models (compared, not chosen; see 2.5) | ☐ |
+| T6 | [sqlite-vec](https://github.com/asg017/sqlite-vec) README | Vector search inside SQLite | ☐ |
 
 ### 2.2 Concepts (my words; to verify against T1–T5)
 - **RAG:** before the model answers, retrieve relevant passages from my own sources and put them in the prompt, so the answer is grounded in and can cite those sources instead of the model's memory.
@@ -105,9 +106,10 @@ Section 3 (group system) lives in the team's shared record, not here.
 | "How many copies of card X are in the winning list?" | Unreliable | **Poor** (similarity ≠ counting) | **Good** |
 | "Which cards appear in both top archetypes?" | Poor | Poor | **Good** |
 
-**Decision: both, in a lightweight form.** Meta-deck data is mostly *relationships and counts* (decks, cards, quantities, placements), which vectors handle badly. My written strategy notes are *passages*, which vectors handle well. Plan: PostgreSQL with **relational tables for the deck→card→archetype graph** plus **pgvector for text chunks**, and FTS5-style keyword search as the baseline to beat.  
-**Alternative rejected for now:** Neo4j, a true graph database. It's more expressive, but it's another service on a small droplet, and my graph is shallow (2–3 hops).  
-**Check that could change this:** if the evaluation's relationship questions need deeper traversals than simple SQL joins handle cleanly, I'll revisit Neo4j.
+**Decision: both, in a lightweight form.** Meta-deck data is mostly *relationships and counts* (decks, cards, quantities, placements), which vectors handle badly. My written strategy notes are *passages*, which vectors handle well. Plan: one **SQLite** database file with **relational tables for the deck→card→archetype graph**, **sqlite-vec for text-chunk vectors**, and **FTS5 keyword search** as the baseline to beat.
+**Revised 2026-11-13 after checking hosting (see 2.5):** my first plan was PostgreSQL + pgvector. On a 1 GB droplet already running two app containers and a proxy, a separate database server costs RAM I don't have. SQLite runs inside the app process, as one file, with no extra service. PostgreSQL + pgvector stays the fallback if the data outgrows SQLite.  
+**Alternative rejected for now:** Neo4j, a true graph database. It's more expressive, but it runs on the Java VM and needs more memory than my whole 1 GB droplet has to spare, and my graph is shallow (2–3 hops).  
+**Check that could change this:** if the evaluation's relationship questions need deeper traversals than simple SQL joins handle cleanly, I'll revisit Neo4j (it would need a bigger droplet or a hosted graph database).
 
 ### 2.4 Permitted-source manifest
 Governing rule: [Elestrals Fan Content Policy](https://www.elestrals.com/fan-content-policy) (last updated Sep 6, 2024; read 2026-11-13). Fan content must be free and non-commercial, must state it is unofficial and display the required notice, and must not exactly copy Elestrals IP (e.g., card reproductions).
@@ -124,15 +126,16 @@ Governing rule: [Elestrals Fan Content Policy](https://www.elestrals.com/fan-con
 ```
 S1 + S2 + S3 → admin import (stable source IDs, version, date)
    ├─ structured: Tournament · Deck · Archetype · Card · Element tables + deck_cards(qty)
-   └─ text: notes → heading/paragraph chunks → embeddings → pgvector
+   └─ text: notes → heading/paragraph chunks → embeddings → sqlite-vec
 Question → keyword + vector retrieval (+ SQL lookup for count/relationship questions)
    → top chunks/records → LLM prompt ("answer only from these; cite IDs; say if missing")
    → answer with clickable source citations
 ```
 - **App:** extend `my-app-studio` (FastAPI). Its admin role guards import controls.
 - **Hosting:** Docker on my DigitalOcean droplet behind the existing Traefik HTTPS proxy, at a **planned** URL `rag.xenoshin.com` (DNS record not yet created).
-- **Models:** embeddings from a small local model (e.g., all-MiniLM-L6-v2, 384-dim) vs. a hosted embedding API. Generation via a hosted LLM API with the key in server env only. ☐ Choose after checking droplet RAM and API cost.
-- **Constraints to confirm:** ☐ droplet size/RAM · ☐ disk · ☐ monthly API budget · ☐ rate limiting so visitors can't run up costs.
+- **Droplet (observed 2026-11-13, DigitalOcean dashboard):** Basic · 1 vCPU · **1 GB RAM** · 25 GB disk. Already running: QA + production containers, Traefik proxy, WUD updater.
+- **Models (decided):** a **hosted embedding API**, not a local model. A local Sentence-Transformers model pulls in PyTorch, which alone can use most of 1 GB of RAM. The corpus is small (tens of notes and decklists), so embedding it costs very little. Generation via a hosted LLM API. API keys live in server env only, never in Git. ☐ Pick the provider and record its price.
+- **Constraints:** RAM is the tight one. ☐ Planned check: run `free -m` and `docker stats` on the droplet before Build and record free memory. ☐ Add a 1–2 GB swap file as a safety margin. Disk (25 GB) is ample for a few-MB SQLite file. ☐ Monthly API budget · ☐ rate limiting so visitors can't run up costs.
 
 ### 2.6 Sample representation and trace sketch
 > **Illustrative sketch, not an executed result.**
@@ -167,8 +170,8 @@ All **planned**; no pass results claimed.
 4. A logged-out visitor or member cannot reach import/admin endpoints (server returns 401/403).
 5. Every page shows the Elestrals unofficial-fan-content notice.
 
-**Changed:** created this section; decided on hybrid structured + vector on PostgreSQL.  
-**Checked:** read the Fan Content Policy and S1 on 2026-11-13. ☐ T1–T5 still to check.  
+**Changed:** created this section; decided on hybrid structured + vector search. After recording the droplet size (1 GB RAM), switched from PostgreSQL + pgvector to SQLite + sqlite-vec, and from a local embedding model to a hosted embedding API.  
+**Checked:** read the Fan Content Policy and S1 on 2026-11-13. Droplet size recorded 2026-11-13. ☐ T1–T6 still to check.  
 **Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; write 3–5 S3 notes; record expected answers for Q1–Q5.
 
 ---
