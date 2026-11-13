@@ -45,7 +45,7 @@ Section 3 (group system) lives in the team's shared record, not here.
 | Gap to close | A small engine or gameplay prototype in C++/C# | More OOP depth (Java/C++), one game-adjacent service |
 
 ### 1.3 Target role and reader
-**Provisional choice: Direction B.** The reader is a university recruiter or engineering manager hiring a game services/tools intern (P2 type). I chose B because my existing, verifiable work (tested deployment pipeline, auth/roles service) maps to its responsibilities, while A would currently rest on claims I can't back with evidence. I will keep a small gameplay prototype on the roadmap so A stays open.
+**Provisional choice: Direction B.** The reader is a university recruiter or engineering manager hiring a game services/tools intern (P2 type). I chose B because my existing, verifiable work (tested deployment pipeline, auth/roles service) maps to its responsibilities, while A would currently rest on claims I can't back with evidence. I will keep a small gameplay prototype on the roadmap so A stays open.  
 *Hypothesis, not employer fact:* that a game studio reader values service and pipeline work from a student without shipped game credits. *Planned check:* the peer workshop question below.
 
 ### 1.4 Responsibility-to-evidence map
@@ -68,8 +68,8 @@ Section 3 (group system) lives in the team's shared record, not here.
 
 **Provisional decision:** evidence-first, since a recruiter skimming many applicants should reach verifiable work in one click. *This is a design hypothesis, not a measured finding.*
 
-**Changed:** created this section; chose direction B and evidence-first layout (provisional).
-**Checked:** 2026-11-13: P1 open; P2 closed (kept as research). ☐ P3 original still to check.
+**Changed:** created this section; chose direction B and evidence-first layout (provisional).  
+**Checked:** 2026-11-13: P1 open; P2 closed (kept as research). ☐ P3 original still to check.  
 **Next:** open P3 (and the Tools intern alternate) on Epic's site; confirm eligibility; peer walkthrough; sketch both layouts.
 
 ---
@@ -105,8 +105,8 @@ Section 3 (group system) lives in the team's shared record, not here.
 | "How many copies of card X are in the winning list?" | Unreliable | **Poor** (similarity ≠ counting) | **Good** |
 | "Which cards appear in both top archetypes?" | Poor | Poor | **Good** |
 
-**Decision: both, in a lightweight form.** Meta-deck data is mostly *relationships and counts* (decks, cards, quantities, placements), which vectors handle badly. My written strategy notes are *passages*, which vectors handle well. Plan: PostgreSQL with **relational tables for the deck→card→archetype graph** plus **pgvector for text chunks**, and FTS5-style keyword search as the baseline to beat.
-**Alternative rejected for now:** Neo4j, a true graph database. It's more expressive, but it's another service on a small droplet, and my graph is shallow (2–3 hops).
+**Decision: both, in a lightweight form.** Meta-deck data is mostly *relationships and counts* (decks, cards, quantities, placements), which vectors handle badly. My written strategy notes are *passages*, which vectors handle well. Plan: PostgreSQL with **relational tables for the deck→card→archetype graph** plus **pgvector for text chunks**, and FTS5-style keyword search as the baseline to beat.  
+**Alternative rejected for now:** Neo4j, a true graph database. It's more expressive, but it's another service on a small droplet, and my graph is shallow (2–3 hops).  
 **Check that could change this:** if the evaluation's relationship questions need deeper traversals than simple SQL joins handle cleanly, I'll revisit Neo4j.
 
 ### 2.4 Permitted-source manifest
@@ -145,7 +145,7 @@ archetype:  {id: A-CELESTLEO-PRIDE, name: "Celestleo's Pride", source: S1}
 deck:       {id: D-2026W-1, tournament: T-2026-WORLDS, rank: 1, archetype: A-CELESTLEO-PRIDE, source: S1}
 chunk:      {id: S3-note-01#2, text: "<my own summary of how the deck plays>", cites: [S1]}
 ```
-**Trace:** "What deck won Worlds?" → vector match on `S3-note-01#2` + lookup on `D-2026W-1` → answer: "Celestleo's Pride [S1]" with link.
+**Trace:** "What deck won Worlds?" → vector match on `S3-note-01#2` + lookup on `D-2026W-1` → answer: "Celestleo's Pride [S1]" with link.  
 **Where it can fail:** if S1 isn't imported, a model might still "remember" an answer. The prompt and the absent-evidence check (Q5) are meant to catch this.
 
 ### 2.7 Evaluation questions
@@ -167,8 +167,8 @@ All **planned**; no pass results claimed.
 4. A logged-out visitor or member cannot reach import/admin endpoints (server returns 401/403).
 5. Every page shows the Elestrals unofficial-fan-content notice.
 
-**Changed:** created this section; decided on hybrid structured + vector on PostgreSQL.
-**Checked:** read the Fan Content Policy and S1 on 2026-11-13. ☐ T1–T5 still to check.
+**Changed:** created this section; decided on hybrid structured + vector on PostgreSQL.  
+**Checked:** read the Fan Content Policy and S1 on 2026-11-13. ☐ T1–T5 still to check.  
 **Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; write 3–5 S3 notes; record expected answers for Q1–Q5.
 
 ---
