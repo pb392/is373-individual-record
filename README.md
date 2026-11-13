@@ -83,12 +83,12 @@ Section 3 (group system) lives in the team's shared record, not here.
 
 | ID | Source | Used for | Date checked |
 |---|---|---|---|
-| T1 | Lewis et al., *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks* (2020), [arXiv:2005.11401](https://arxiv.org/abs/2005.11401) | Definition of RAG | ☐ |
-| T2 | [pgvector](https://github.com/pgvector/pgvector) README | Vector storage in PostgreSQL | ☐ |
-| T3 | [Neo4j graph database concepts](https://neo4j.com/docs/getting-started/graph-database/) | Nodes, relationships, properties | ☐ |
-| T4 | [SQLite FTS5](https://www.sqlite.org/fts5.html) | Keyword-search baseline | ☐ |
-| T5 | [Sentence-Transformers docs](https://www.sbert.net/) | Local embedding models (compared, not chosen; see 2.5) | ☐ |
-| T6 | [sqlite-vec](https://github.com/asg017/sqlite-vec) README | Vector search inside SQLite | ☐ |
+| T1 | Lewis et al., *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks* (2020), [arXiv:2005.11401](https://arxiv.org/abs/2005.11401) | Definition of RAG | 2026-11-13 ✓ |
+| T2 | [pgvector](https://github.com/pgvector/pgvector) README | Vector storage in PostgreSQL | 2026-11-13 ✓ |
+| T3 | [Neo4j graph database concepts](https://neo4j.com/docs/getting-started/graph-database/) | Nodes, relationships, properties | 2026-11-13 ✓ |
+| T4 | [SQLite FTS5](https://www.sqlite.org/fts5.html) | Keyword-search baseline | 2026-11-13 ✓ |
+| T5 | [Sentence-Transformers docs](https://www.sbert.net/) | Local embedding models (compared, not chosen; see 2.5) | 2026-11-13 ✓ |
+| T6 | [sqlite-vec](https://github.com/asg017/sqlite-vec) README | Vector search inside SQLite | 2026-11-13 ✓ |
 
 ### 2.2 Concepts (my words; to verify against T1–T5)
 - **RAG:** before the model answers, retrieve relevant passages from my own sources and put them in the prompt, so the answer is grounded in and can cite those sources instead of the model's memory.
@@ -172,7 +172,7 @@ All **planned**; no pass results claimed.
 5. Every page shows the Elestrals unofficial-fan-content notice.
 
 **Changed:** created this section; decided on hybrid structured + vector search. Chose `rag.xenoshin.com` and a new app repo (my-app-studio stays untouched until graded); may retire the graded CI/CD containers at Build. After recording the droplet size (1 GB RAM), switched from PostgreSQL + pgvector to SQLite + sqlite-vec, and from a local embedding model to a hosted embedding API.  
-**Checked:** read the Fan Content Policy and S1 on 2026-11-13. Droplet size recorded 2026-11-13. ☐ T1–T6 still to check.  
+**Checked:** read the Fan Content Policy and S1 on 2026-11-13. Droplet size recorded 2026-11-13. T1–T6 and the course handout checked against section 2.2 on 2026-11-13: all match, no corrections.  
 **Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; write 3–5 S3 notes; record expected answers for Q1–Q5.
 
 ---
@@ -189,4 +189,4 @@ All **planned**; no pass results claimed.
 | My decision + doc change | ☐ | ☐ |
 
 ## AI use
-Claude helped find candidate postings, draft concept explanations and structure this record. I verified: ☐ each posting on its original page · ☐ each technical source · ☐ the Fan Content Policy reading. Conclusions and choices are mine; anything unchecked stays marked ☐.
+Claude helped find candidate postings, draft concept explanations and structure this record. I verified: ☐ each posting on its original page · ✓ each technical source (2026-11-13) · ☐ the Fan Content Policy reading. Conclusions and choices are mine; anything unchecked stays marked ☐.
