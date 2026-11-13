@@ -137,6 +137,7 @@ Question → keyword + vector retrieval (+ SQL lookup for count/relationship que
 - **Droplet (observed 2026-11-13, DigitalOcean dashboard):** Basic · 1 vCPU · **1 GB RAM** · 25 GB disk. Already running: QA + production containers, Traefik proxy, WUD updater.
 - **Freeing memory (decided 2026-11-13):** the CI/CD assignment (`is373_ci_cd`) is already graded, so at Build I may retire its QA and production containers to free RAM for the RAG app. Its record of observed results (Oct 15, 2026) stays in that repo. ☐ Planned check: `free -m` before and after.
 - **Models (decided):** a **hosted embedding API**, not a local model. A local Sentence-Transformers model pulls in PyTorch, which alone can use most of 1 GB of RAM. The corpus is small (tens of notes and decklists), so embedding it costs very little. Generation via a hosted LLM API. API keys live in server env only, never in Git. ☐ Pick the provider and record its price.
+- **Import cadence:** Elestrals runs a Premier event every other weekend, and TopElestrals (S2) posts results a few days later (the Columbus Open, Nov 7–8, was not yet posted on Nov 13). So the plan is to re-import about every two weeks, which makes "importing twice creates no duplicates" (story 2) a real requirement.
 - **Constraints:** RAM is the tight one. ☐ Planned check: run `free -m` and `docker stats` on the droplet before Build and record free memory. ☐ Add a 1–2 GB swap file as a safety margin. Disk (25 GB) is ample for a few-MB SQLite file. ☐ Monthly API budget · ☐ rate limiting so visitors can't run up costs.
 
 ### 2.6 Sample representation and trace sketch
@@ -154,17 +155,19 @@ S3-note-01#3  "...the meta is less defined by the decks that are played, but rat
 ```
 **Entities and relationships** (the graph-shaped part, stored as tables):
 ```
-Tournament  T-COLUMBUS-OPEN  (date ☐)
+Tournament  T-COLUMBUS-OPEN  (2026-11-07 to 11-08)
 Archetype   Athena Dimenshen · Apollo Celestleo · Hades Trifernal · Fish · Hades Sloth · Sulfury · Dionysus Duggy
-Boss        Dimenshen · Celestleo · Neandersloth · Fish
+Boss        Neandersloth CoKhione · Trifernal CoHades · Sulfury · Celestleo · Dimenshen CoAthena ·
+            Apheros CoAphrodite · Magneros CoAphrodite · Lochagon · Duggabyss · Centaurbor CoDionysus
 Archetype ─PLAYED_AT{popularity_rank}→ Tournament    e.g. Athena Dimenshen ─{1}→ T-COLUMBUS-OPEN
 Archetype ─TOPPED_AT{placement}→ Tournament          e.g. Fish ─{1st}→ T-COLUMBUS-OPEN
-Archetype ─USES_BOSS→ Boss                            e.g. Hades Sloth ─→ Neandersloth (☐ confirm pairing)
+Archetype ─USES_BOSS→ Boss   (from S3-note-02)       e.g. Hades Sloth ─→ Neandersloth CoKhione
+                                                           Dio Duggy   ─→ Neandersloth CoKhione (one boss, two archetypes)
 ```
-Every row keeps `source: S3-note-01`, so an answer can cite it.
+Every row keeps its source (`S3-note-01` or [`S3-note-02`](docs/notes/S3-note-02-archetype-bosses.md)), so an answer can cite it.
 
 **Trace:** "Who won the last big tournament?" → vector search matches `S3-note-01#2` ("winner playing Fish"), and the lookup Fish ─TOPPED_AT{1st}→ T-COLUMBUS-OPEN agrees → answer: "A Fish deck won the Columbus Open [S3-note-01]" with a link to the note.
-**Where it can fail:** "last event" is relative: once a newer tournament is imported, this chunk would give an outdated answer unless the tournament's date is stored and the newest is preferred. That is why T-COLUMBUS-OPEN needs a date (☐). If no source is imported, a model might still "remember" an answer; the prompt and the absent-evidence check (Q5) are meant to catch that.
+**Where it can fail:** "last event" is relative: once a newer tournament is imported, this chunk would give an outdated answer unless the tournament's date is stored and the newest is preferred. That is why each tournament stores its date (Columbus Open: 2026-11-07 to 11-08) and answers prefer the newest. If no source is imported, a model might still "remember" an answer; the prompt and the absent-evidence check (Q5) are meant to catch that.
 
 ### 2.7 Evaluation questions
 Expected sources are recorded **before** running anything.
@@ -178,6 +181,7 @@ Expected sources are recorded **before** running anything.
 | Q5 | What is the ban list for the 2027 season? | **Deliberately absent** | None. The app must say it lacks evidence |
 | Q6 | Which deck won the Columbus Open? | Fact from my own note | S3-note-01#2 → Fish |
 | Q7 | Which bosses are hardest to beat right now? | Paraphrase ("toughest boss cards") | S3-note-01#3 → Celestleo, Dimenshen, Neandersloth, Fish |
+| Q8 | Which decks run Neandersloth CoKhione? | Relationship (one boss, many archetypes); vectors alone tend to miss one | S3-note-02 → Hades Sloth and Dio Duggy |
 
 ### 2.8 Observable stories/checks
 All **planned**; no pass results claimed.
@@ -189,7 +193,7 @@ All **planned**; no pass results claimed.
 
 **Changed:** created this section; decided on hybrid structured + vector search. Chose `rag.xenoshin.com` and a new app repo (my-app-studio stays untouched until graded); may retire the graded CI/CD containers at Build. After recording the droplet size (1 GB RAM), switched from PostgreSQL + pgvector to SQLite + sqlite-vec, and from a local embedding model to a hosted embedding API.  
 **Checked:** read the Fan Content Policy and S1 on 2026-11-13. Droplet size recorded 2026-11-13. T1–T6 and the course handout checked against section 2.2 on 2026-11-13: all match, no corrections.  
-**Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; write 2–4 more S3 notes and add the Columbus Open date/source; record expected answers for Q1–Q5.
+**Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; link the Columbus Open S2 results once posted; record expected answers for Q1–Q5.
 
 ---
 

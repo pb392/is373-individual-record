@@ -6,7 +6,8 @@
 | Author | Peter Balasis (own words) |
 | Written | 2026-11-13 |
 | Version | 1 |
-| Based on | My own knowledge of the Columbus Open results and the current meta. ☐ Add the S1/S2 page for the Columbus Open results and its date. |
+| Event | Columbus Open, 2026-11-07 to 2026-11-08 |
+| Based on | My own knowledge of the Columbus Open results and the current meta. TopElestrals (S2) had not posted the results when checked on 2026-11-13; its newest listed event was the Oct 24, 2026 Premier. ☐ Link the S2 results page once posted. |
 | Permission | Own work (see manifest, section 2.4) |
 
 ## Note
