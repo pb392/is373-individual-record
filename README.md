@@ -119,7 +119,7 @@ Governing rule: [Elestrals Fan Content Policy](https://www.elestrals.com/fan-con
 |---|---|---|---|---|
 | S1 | [2026 World Championship results](https://www.elestrals.com/news/2026-world-championship-results-your-bride-is-here) (official) | Elestrals LLC | Fan Content Policy **+ direct permission from the Elestrals team** (personal contact) | Facts (winner, top archetypes, elements) in **my own words**, linked back. No copied text or images |
 | S2 | [TopElestrals](https://www.topelestrals.com) tournament results and decklists | TopElestrals site owner | **Direct permission from the site owner** (personal contact) | Decklists (deck → card → quantity) and placements, attributed and linked. Articles by other authors are excluded unless their writers agree |
-| S3 | My own deck/strategy notes | Me | Own work | Main text corpus. Each note cites the S1/S2 facts it relies on |
+| S3 | My own deck/strategy notes, e.g. [S3-note-01](docs/notes/S3-note-01-meta-overview.md) (2026-11-13) | Me | Own work | Main text corpus. Each note cites the S1/S2 facts it relies on |
 
 **Permission record:** both permissions were given to me directly. ☐ Before Build, get each in writing (a short email or DM reply) and save it, or a screenshot with personal details removed, as `docs/permissions/` evidence, recording who confirmed, the date and what they agreed to. This also settles the policy's "game mechanics" consent clause. No card text or card art is stored. Every page shows the required unofficial-fan-content notice.
 
@@ -140,18 +140,31 @@ Question → keyword + vector retrieval (+ SQL lookup for count/relationship que
 - **Constraints:** RAM is the tight one. ☐ Planned check: run `free -m` and `docker stats` on the droplet before Build and record free memory. ☐ Add a 1–2 GB swap file as a safety margin. Disk (25 GB) is ample for a few-MB SQLite file. ☐ Monthly API budget · ☐ rate limiting so visitors can't run up costs.
 
 ### 2.6 Sample representation and trace sketch
-> **Illustrative sketch, not an executed result.**
+> **Illustrative sketch, not an executed result.** No import has run yet; this shows how one real permitted source would be represented.
 
-*S1 fact, restated:* the first Elestrals World Championship (2026) was won by Mike Thomas ("Trishula"); Celestleo's Pride and Fish Nexus were the top archetypes.
+**Source:** [S3-note-01](docs/notes/S3-note-01-meta-overview.md), my own meta overview (written 2026-11-13).
 
+**Chunks** (one per idea, split at sentence boundaries, each keeping its source ID):
 ```
-tournament: {id: T-2026-WORLDS, name: "2026 Elestrals World Championship", source: S1}
-archetype:  {id: A-CELESTLEO-PRIDE, name: "Celestleo's Pride", source: S1}
-deck:       {id: D-2026W-1, tournament: T-2026-WORLDS, rank: 1, archetype: A-CELESTLEO-PRIDE, source: S1}
-chunk:      {id: S3-note-01#2, text: "<my own summary of how the deck plays>", cites: [S1]}
+S3-note-01#1  "...at the last event, the Columbus Open, the majority of the decks played were
+               Athena Dimenshen, Apollo Celestleo, Hades Trifernal, Fish, Hades Sloth, and Sulfury..."
+S3-note-01#2  "The main topping decks were Hades Sloth, Fish, Dionysus Duggy ... with the winner playing Fish."
+S3-note-01#3  "...the meta is less defined by the decks that are played, but rather by the bosses...
+               Celestleo, Dimenshen, Neandersloth, and Fish ... are all very difficult bosses to beat..."
 ```
-**Trace:** "What deck won Worlds?" → vector match on `S3-note-01#2` + lookup on `D-2026W-1` → answer: "Celestleo's Pride [S1]" with link.  
-**Where it can fail:** if S1 isn't imported, a model might still "remember" an answer. The prompt and the absent-evidence check (Q5) are meant to catch this.
+**Entities and relationships** (the graph-shaped part, stored as tables):
+```
+Tournament  T-COLUMBUS-OPEN  (date ☐)
+Archetype   Athena Dimenshen · Apollo Celestleo · Hades Trifernal · Fish · Hades Sloth · Sulfury · Dionysus Duggy
+Boss        Dimenshen · Celestleo · Neandersloth · Fish
+Archetype ─PLAYED_AT{popularity_rank}→ Tournament    e.g. Athena Dimenshen ─{1}→ T-COLUMBUS-OPEN
+Archetype ─TOPPED_AT{placement}→ Tournament          e.g. Fish ─{1st}→ T-COLUMBUS-OPEN
+Archetype ─USES_BOSS→ Boss                            e.g. Hades Sloth ─→ Neandersloth (☐ confirm pairing)
+```
+Every row keeps `source: S3-note-01`, so an answer can cite it.
+
+**Trace:** "Who won the last big tournament?" → vector search matches `S3-note-01#2` ("winner playing Fish"), and the lookup Fish ─TOPPED_AT{1st}→ T-COLUMBUS-OPEN agrees → answer: "A Fish deck won the Columbus Open [S3-note-01]" with a link to the note.
+**Where it can fail:** "last event" is relative: once a newer tournament is imported, this chunk would give an outdated answer unless the tournament's date is stored and the newest is preferred. That is why T-COLUMBUS-OPEN needs a date (☐). If no source is imported, a model might still "remember" an answer; the prompt and the absent-evidence check (Q5) are meant to catch that.
 
 ### 2.7 Evaluation questions
 Expected sources are recorded **before** running anything.
@@ -163,6 +176,8 @@ Expected sources are recorded **before** running anything.
 | Q3 | Which elements showed up most in the top cards at Worlds? | Aggregate fact | S1 |
 | Q4 | How many copies of [card] are in the winning list? | Count (structured) | S2 decklist → deck_cards row for D-2026W-1 |
 | Q5 | What is the ban list for the 2027 season? | **Deliberately absent** | None. The app must say it lacks evidence |
+| Q6 | Which deck won the Columbus Open? | Fact from my own note | S3-note-01#2 → Fish |
+| Q7 | Which bosses are hardest to beat right now? | Paraphrase ("toughest boss cards") | S3-note-01#3 → Celestleo, Dimenshen, Neandersloth, Fish |
 
 ### 2.8 Observable stories/checks
 All **planned**; no pass results claimed.
@@ -174,7 +189,7 @@ All **planned**; no pass results claimed.
 
 **Changed:** created this section; decided on hybrid structured + vector search. Chose `rag.xenoshin.com` and a new app repo (my-app-studio stays untouched until graded); may retire the graded CI/CD containers at Build. After recording the droplet size (1 GB RAM), switched from PostgreSQL + pgvector to SQLite + sqlite-vec, and from a local embedding model to a hosted embedding API.  
 **Checked:** read the Fan Content Policy and S1 on 2026-11-13. Droplet size recorded 2026-11-13. T1–T6 and the course handout checked against section 2.2 on 2026-11-13: all match, no corrections.  
-**Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; write 3–5 S3 notes; record expected answers for Q1–Q5.
+**Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; write 2–4 more S3 notes and add the Columbus Open date/source; record expected answers for Q1–Q5.
 
 ---
 
