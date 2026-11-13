@@ -29,7 +29,7 @@ Section 3 (group system) lives in the team's shared record, not here.
 | # | Employer · title | Original source | Date checked | Level / eligibility | Three responsibilities (paraphrased) | Required / preferred skills |
 |---|---|---|---|---|---|---|
 | P1 | 2K / Cat Daddy Games · **Associate Gameplay Engineer** | [Greenhouse](https://job-boards.greenhouse.io/2k/jobs/7724801003) | 2026-11-13 (open) | Full-time associate; onsite Kirkland, WA; BS in CS or related; $71,400–$105,660 (WA) | Design, write and debug gameplay code for mobile games · write system docs and test cases · work with QA to fix bugs and build new tools | Req: game dev experience, gameplay/UI/AI systems, C/C++/C#. Pref: mobile, iOS/Android |
-| P2 | Epic Games · **Tools Programmer Intern (Unreal Engine)**, 2027 | [Epic careers](https://www.epicgames.com/site/careers/jobs/6200355004?lang=en-US) | 2026-11-13 (open; opened by me) | Internship, Cary, NC, in person; US work authorization | Create and improve internal tools and platforms for Epic developers · write unit and functional tests for released tools · instrument telemetry and report tool usage | C# experience on game features or technology; familiarity or willingness to learn C++; UX/GUI frameworks; comfort with AI-assisted coding. ☐ confirm these match the Unreal Engine posting |
+| P2 | Epic Games · **Tools Programmer Intern (Unreal Engine, Content Architecture team)**, 2027 | [Epic careers](https://www.epicgames.com/site/careers/jobs/6200355004?lang=en-US) | 2026-11-13 (open; read in full by me) | Internship, flexible 2027 start; location not stated in the text ("the posting location"); must be authorized to work there | Write clean, documented C++ for tool systems that configure how game content is packaged, distributed and streamed · resolve bugs and workflow issues for internal teams · work in Unreal Engine's editor and toolchain, owning implementation decisions | Req: strong C++ fundamentals; OOP, patterns, algorithms, data structures; debugging; developing on Windows. Plus: Unreal Engine experience (not required) |
 | P3 | Epic Games · **Engine Programmer Intern (Fortnite Online)**, 2027 | [Epic careers](https://www.epicgames.com/site/careers/jobs/6202659004?lang=en-US) | 2026-11-13 (open; opened by me) | Internship, Cary, NC, in person; BS in CS; US work authorization | Build and maintain shared online gameplay technology · contribute to online systems/toolsets for Unreal licensees · take solutions from concept to stable shipped code | Req: OOP + C++, networking/REST/back-end services. Pref: Java, interest in online multiplayer and games-as-a-service, Unreal/UEFN |
 
 *Also researched:* Epic **Tools Programmer Intern (Fortnite)**, [Epic careers](https://www.epicgames.com/site/careers/jobs/6147167004?lang=en-US), open 2026-11-13, the same role on the Fortnite side. Riot Games **Software Engineering Intern – Summer 2027** ([Riot careers](https://www.riotgames.com/en/work-with-us/job/8222014/software-engineering-intern-summer-2027-remote-los-angeles-usa)) was **closed** when checked on 2026-11-13 (applications closed Nov 6, 2026). I kept it as evidence of direction B's responsibilities: back-end services for shared social/platform features, real-time game data, and SDKs/APIs for game teams.
@@ -40,22 +40,23 @@ Section 3 (group system) lives in the team's shared record, not here.
 | | **A. Gameplay programming** (P1, Epic gameplay intern roles) | **B. Game services, tools and build engineering** (P2, P3) |
 |---|---|---|
 | Day-to-day work | Player-facing mechanics in an engine (C++/Unreal, C#/Unity) | Back-end services, online features, build/test pipelines and developer tools behind the game |
-| Main language signals | C++ almost everywhere | OOP language plus REST, services, CI/CD and Python/Java |
+| Main language signals | C++ almost everywhere | C++ for engine tools (P2); OOP plus REST/services (P3) |
 | My current evidence | No shipped engine project yet (gap) | CI/CD pipeline with tests gating releases; Docker deployment; FastAPI accounts and roles; planned RAG service |
-| Gap to close | A small engine or gameplay prototype in C++/C# | More OOP depth (Java/C++), one game-adjacent service |
+| Gap to close | A small engine or gameplay prototype in C++/C# | **C++** (P2 requires it), plus one game-adjacent service |
 
 ### 1.3 Target role and reader
 **Provisional choice: Direction B.** The reader is a university recruiter or engineering manager hiring a game services/tools intern (P2/P3 type: Epic tools and online-services internships). I chose B because my existing, verifiable work (tested deployment pipeline, auth/roles service) maps to its responsibilities, while A would currently rest on claims I can't back with evidence. I will keep a small gameplay prototype on the roadmap so A stays open.  
+*Finding (2026-11-13):* reading P2 in full showed that Epic's tools internship is C++ engine work, not the Python/CI work I expected. So C++ is a gap for **both** directions, which makes a small C++ project my most important next step either way.
 *Hypothesis, not employer fact:* that a game studio reader values service and pipeline work from a student without shipped game credits. *Planned check:* the peer workshop question below.
 
 ### 1.4 Responsibility-to-evidence map
 | Employer responsibility (source) | My evidence | Status |
 |---|---|---|
 | Build and operate back-end/online services (P3) | `my-app-studio` FastAPI app with REST endpoints, JWT sessions and role checks | observed (repo, CI) |
-| Keep shipped code stable; unit/functional tests before release (P1, P2, P3) | `is373_ci_cd`: unit, integration and browser tests gate image publication; QA → prod promotion | observed in CI + hosted (Oct 15, 2026) |
+| Keep shipped code stable; tests before release (P1, P3) | `is373_ci_cd`: unit, integration and browser tests gate image publication; QA → prod promotion | observed in CI + hosted (Oct 15, 2026) |
 | Write docs and test cases (P1) | READMEs, test evidence tables, SPEC.md in both repos | observed |
-| Build internal tools that process and report data for developers (P2) | Elestrals meta-deck RAG app (section 2) | **planned** |
-| C++ / gameplay systems (P1, P3) | — | **gap** → next action: small C++ or Unity prototype, date ☐ |
+| Resolve bugs and workflow issues for internal teams; packaging and distribution of builds (P2) | `is373_ci_cd`: automated build → test → publish → deploy pipeline (a release/distribution workflow, but in Python/Docker, not C++/Unreal); RAG app import pipeline (section 2) | observed in CI + hosted (Oct 15, 2026); RAG part **planned** |
+| C++ / gameplay and engine-tool systems (P1, P2, P3) | — | **gap** → next action: small C++ or Unity prototype, date ☐ |
 
 ### 1.5 Portfolio outline and two lightweight layouts
 **Pages:** (1) Home: one-line target ("game services & tools engineer"), plus top 2 projects · (2) Case study: Elestrals meta RAG app · (3) Case study: CI/CD deployment pipeline · (4) Case study: group system with my named contribution · (5) About + resume + GitHub/contact.
