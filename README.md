@@ -1,6 +1,6 @@
 # IS373 Individual Record — Peter Balasis
 
-**Review 1 · Plan** · due Nov 17, 2026, 1 p.m. ET
+**Review 1 · Plan** · due Nov 17, 2026, 1 p.m. ET  
 Section 3 (group system) lives in the team's shared record, not here.
 
 > **Status labels:** **planned** = proposed, not run · **observed locally** · **observed in CI** · **observed hosted**. At Plan, almost everything is *planned*. Sketches and expected answers below are **not** test results.
@@ -12,8 +12,8 @@ Section 3 (group system) lives in the team's shared record, not here.
 | | 1. Portfolio + career | 2. RAG app + technical |
 |---|---|---|
 | Sources | [Employer postings](#11-original-employer-postings) | [Technical sources](#21-technical-sources) · [Permitted-source manifest](#24-permitted-source-manifest) |
-| Comparisons | [Two career directions](#12-two-career-directions) · [Two layouts](#15-two-lightweight-layouts) | [Keyword vs. vector vs. graph](#23-comparison-and-decision) |
-| Decisions | [Target role/reader](#13-target-role-and-reader) · [Layout choice](#15-two-lightweight-layouts) | [Architecture](#25-planned-architecture) |
+| Comparisons | [Two career directions](#12-two-career-directions) · [Two layouts](#15-portfolio-outline-and-two-lightweight-layouts) | [Keyword vs. vector vs. graph](#23-comparison-and-decision) |
+| Decisions | [Target role/reader](#13-target-role-and-reader) · [Layout choice](#15-portfolio-outline-and-two-lightweight-layouts) | [Architecture](#25-planned-architecture) |
 | Evidence / checks | [Responsibility → evidence map](#14-responsibility-to-evidence-map) | [Sample trace](#26-sample-representation-and-trace-sketch) · [Evaluation questions](#27-evaluation-questions) · [Stories/checks](#28-observable-storieschecks) |
 | Peer review | [Workshop notes](#workshop-notes-peer-review) | [Workshop notes](#workshop-notes-peer-review) |
 
