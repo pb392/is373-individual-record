@@ -131,9 +131,10 @@ Question → keyword + vector retrieval (+ SQL lookup for count/relationship que
    → top chunks/records → LLM prompt ("answer only from these; cite IDs; say if missing")
    → answer with clickable source citations
 ```
-- **App:** extend `my-app-studio` (FastAPI). Its admin role guards import controls.
-- **Hosting:** Docker on my DigitalOcean droplet behind the existing Traefik HTTPS proxy, at a **planned** URL `rag.xenoshin.com` (DNS record not yet created).
+- **App (decided 2026-11-13):** a **new repository** for the RAG app, reusing the FastAPI accounts/admin-role pattern from `my-app-studio`. That repo is still awaiting grading, so it stays unchanged. The admin role guards import controls.
+- **Hosting:** Docker on my DigitalOcean droplet behind the existing Traefik HTTPS proxy, at the **planned** URL `rag.xenoshin.com` (chosen 2026-11-13; DNS record not yet created).
 - **Droplet (observed 2026-11-13, DigitalOcean dashboard):** Basic · 1 vCPU · **1 GB RAM** · 25 GB disk. Already running: QA + production containers, Traefik proxy, WUD updater.
+- **Freeing memory (decided 2026-11-13):** the CI/CD assignment (`is373_ci_cd`) is already graded, so at Build I may retire its QA and production containers to free RAM for the RAG app. Its record of observed results (Oct 15, 2026) stays in that repo. ☐ Planned check: `free -m` before and after.
 - **Models (decided):** a **hosted embedding API**, not a local model. A local Sentence-Transformers model pulls in PyTorch, which alone can use most of 1 GB of RAM. The corpus is small (tens of notes and decklists), so embedding it costs very little. Generation via a hosted LLM API. API keys live in server env only, never in Git. ☐ Pick the provider and record its price.
 - **Constraints:** RAM is the tight one. ☐ Planned check: run `free -m` and `docker stats` on the droplet before Build and record free memory. ☐ Add a 1–2 GB swap file as a safety margin. Disk (25 GB) is ample for a few-MB SQLite file. ☐ Monthly API budget · ☐ rate limiting so visitors can't run up costs.
 
@@ -170,7 +171,7 @@ All **planned**; no pass results claimed.
 4. A logged-out visitor or member cannot reach import/admin endpoints (server returns 401/403).
 5. Every page shows the Elestrals unofficial-fan-content notice.
 
-**Changed:** created this section; decided on hybrid structured + vector search. After recording the droplet size (1 GB RAM), switched from PostgreSQL + pgvector to SQLite + sqlite-vec, and from a local embedding model to a hosted embedding API.  
+**Changed:** created this section; decided on hybrid structured + vector search. Chose `rag.xenoshin.com` and a new app repo (my-app-studio stays untouched until graded); may retire the graded CI/CD containers at Build. After recording the droplet size (1 GB RAM), switched from PostgreSQL + pgvector to SQLite + sqlite-vec, and from a local embedding model to a hosted embedding API.  
 **Checked:** read the Fan Content Policy and S1 on 2026-11-13. Droplet size recorded 2026-11-13. ☐ T1–T6 still to check.  
 **Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; write 3–5 S3 notes; record expected answers for Q1–Q5.
 
