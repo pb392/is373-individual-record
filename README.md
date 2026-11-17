@@ -219,11 +219,11 @@ All **planned**; no pass results claimed.
 ---
 
 ## Workshop notes (peer review)
-*The course counts only a real classmate's walkthrough, not AI critique. Jorge's review below was AI-assisted, and its own text says his personal confirmation is still pending. ☐ Jorge confirms the feedback matches his own uncoached walkthrough (date: ☐).*
+*The course counts only a real classmate's walkthrough, not AI critique. Jorge used AI to help write his review, and confirmed to me on 2026-11-16 that he walked through the record himself and that the feedback is his. ☐ His written confirmation on [issue #1](https://github.com/pb392/is373-individual-record/issues/1).*
 
 | | Career | RAG |
 |---|---|---|
-| Peer / date | Jorge Sanchez · review prepared 2026-11-15 · **AI-assisted; his personal walkthrough confirmation is pending** | Same |
+| Peer / date | Jorge Sanchez · review written 2026-11-15 with AI assistance; **Jorge walked through the record himself** (confirmed to me 2026-11-16) | Same |
 | Prompt | Can you trace one portfolio choice back to an employer responsibility and my actual work? Which part is employer fact vs. my hypothesis? | Can you follow S1 through the representation, retrieval and answer? Where could missing evidence give an unsupported answer? Why hybrid over keyword-only? |
 | Their question / problem | Is CI/CD a fair match for Epic's C++ tools role? Partial: shows release discipline, not engine-tool C++. Direction B is realistic only with a C++ project (Unity/C# alone wouldn't close it). Also: P1 link now redirects; P2 location unstated | The trace is clear but the note→row "agreement" isn't independent; the popularity rank had no basis; checks didn't cover stale, missing-decklist, empty-corpus or conflicting evidence; the schema lacked Boss/archetype_bosses |
 | GitHub issue | Smaller points kept in [his review](https://github.com/yungjorge/is373-individual-record/blob/main/docs/peer-review.md) | [#1 Add provenance and freshness cases](https://github.com/pb392/is373-individual-record/issues/1) |
