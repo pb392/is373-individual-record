@@ -28,13 +28,13 @@ Section 3 (group system) lives in the team's shared record, not here.
 ### 1.1 Original employer postings
 | # | Employer · title | Original source | Date checked | Level / eligibility | Three responsibilities (paraphrased) | Required / preferred skills |
 |---|---|---|---|---|---|---|
-| P1 | 2K / Cat Daddy Games · **Associate Gameplay Engineer** | [Greenhouse](https://job-boards.greenhouse.io/2k/jobs/7724801003) | 2026-11-13 (open) | Full-time associate; onsite Kirkland, WA; BS in CS or related; $71,400–$105,660 (WA) | Design, write and debug gameplay code for mobile games · write system docs and test cases · work with QA to fix bugs and build new tools | Req: game dev experience, gameplay/UI/AI systems, C/C++/C#. Pref: mobile, iOS/Android |
+| P1 | 2K / Cat Daddy Games · **Associate Gameplay Engineer** | [Greenhouse](https://job-boards.greenhouse.io/2k/jobs/7724801003) | 2026-11-13: open. **2026-11-16: closed** (link now redirects to 2K's general board). Kept as dated research | Full-time associate; onsite Kirkland, WA; BS in CS or related; $71,400–$105,660 (WA) | Design, write and debug gameplay code for mobile games · write system docs and test cases · work with QA to fix bugs and build new tools | Req: game dev experience, gameplay/UI/AI systems, C/C++/C#. Pref: mobile, iOS/Android |
 | P2 | Epic Games · **Tools Programmer Intern (Unreal Engine, Content Architecture team)**, 2027 | [Epic careers](https://www.epicgames.com/site/careers/jobs/6200355004?lang=en-US) | 2026-11-13 (open; read in full by me) | Internship, flexible 2027 start; location not stated in the text ("the posting location"); must be authorized to work there | Write clean, documented C++ for tool systems that configure how game content is packaged, distributed and streamed · resolve bugs and workflow issues for internal teams · work in Unreal Engine's editor and toolchain, owning implementation decisions | Req: strong C++ fundamentals; OOP, patterns, algorithms, data structures; debugging; developing on Windows. Plus: Unreal Engine experience (not required) |
 | P3 | Epic Games · **Engine Programmer Intern (Fortnite Online)**, 2027 | [Epic careers](https://www.epicgames.com/site/careers/jobs/6202659004?lang=en-US) | 2026-11-13 (open; opened by me) | Internship, Cary, NC, in person; BS in CS; US work authorization | Build and maintain shared online gameplay technology · contribute to online systems/toolsets for Unreal licensees · take solutions from concept to stable shipped code | Req: OOP + C++, networking/REST/back-end services. Pref: Java, interest in online multiplayer and games-as-a-service, Unreal/UEFN |
 
 *Also researched:* Epic **Tools Programmer Intern (Fortnite)**, [Epic careers](https://www.epicgames.com/site/careers/jobs/6147167004?lang=en-US), open 2026-11-13, the same role on the Fortnite side. Riot Games **Software Engineering Intern – Summer 2027** ([Riot careers](https://www.riotgames.com/en/work-with-us/job/8222014/software-engineering-intern-summer-2027-remote-los-angeles-usa)) was **closed** when checked on 2026-11-13 (applications closed Nov 6, 2026). I kept it as evidence of direction B's responsibilities: back-end services for shared social/platform features, real-time game data, and SDKs/APIs for game teams.
 
-*Eligibility check (Peter, private):* confirm location/authorization for P1–P3 (all in person: Kirkland, WA or Cary, NC). Record only the result here; keep the reasoning in Canvas.
+*Eligibility check (Peter, private):* confirm location/authorization: P1 Kirkland, WA (onsite); P3 Cary, NC (in person); P2's listing text does not state a location. Record only the result here; keep the reasoning in Canvas.
 
 ### 1.2 Two career directions
 | | **A. Gameplay programming** (P1, Epic gameplay intern roles) | **B. Game services, tools and build engineering** (P2, P3) |
@@ -70,7 +70,7 @@ Section 3 (group system) lives in the team's shared record, not here.
 **Provisional decision:** evidence-first, since a recruiter skimming many applicants should reach verifiable work in one click. *This is a design hypothesis, not a measured finding.*
 
 **Changed:** created this section; chose direction B and evidence-first layout (provisional).  
-**Checked:** 2026-11-13: P1, P2 and P3 open on their original pages. Riot internship closed (kept as research).  
+**Checked:** 2026-11-13: P1, P2 and P3 open on their original pages; Riot internship closed (kept as research). 2026-11-16: P1 closed (kept as dated research, as the peer review suggested).  
 **Next:** confirm eligibility; peer walkthrough; sketch both layouts.
 
 ---
@@ -126,7 +126,8 @@ Governing rule: [Elestrals Fan Content Policy](https://www.elestrals.com/fan-con
 ### 2.5 Planned architecture
 ```
 S1 + S2 + S3 → admin import (stable source IDs, version, date)
-   ├─ structured: Tournament · Deck · Archetype · Card · Element tables + deck_cards(qty)
+   ├─ structured: Tournament · Deck · Archetype · Card · Element · Boss tables + deck_cards(qty), archetype_bosses
+   │            every relationship row carries provenance (see 2.6)
    └─ text: notes → heading/paragraph chunks → embeddings → sqlite-vec
 Question → keyword + vector retrieval (+ SQL lookup for count/relationship questions)
    → top chunks/records → LLM prompt ("answer only from these; cite IDs; say if missing")
@@ -159,15 +160,24 @@ Tournament  T-COLUMBUS-OPEN  (2026-11-07 to 11-08)
 Archetype   Athena Dimenshen · Apollo Celestleo · Hades Trifernal · Fish · Hades Sloth · Sulfury · Dionysus Duggy
 Boss        Neandersloth CoKhione · Trifernal CoHades · Sulfury · Celestleo · Dimenshen CoAthena ·
             Apheros CoAphrodite · Magneros CoAphrodite · Lochagon · Duggabyss · Centaurbor CoDionysus
-Archetype ─PLAYED_AT{popularity_rank}→ Tournament    e.g. Athena Dimenshen ─{1}→ T-COLUMBUS-OPEN
+Archetype ─PLAYED_AT→ Tournament                     e.g. Athena Dimenshen ─→ T-COLUMBUS-OPEN (no numeric rank: the note gives an order, not counts)
 Archetype ─TOPPED_AT{placement}→ Tournament          e.g. Fish ─{1st}→ T-COLUMBUS-OPEN
 Archetype ─USES_BOSS→ Boss   (from S3-note-02)       e.g. Hades Sloth ─→ Neandersloth CoKhione
                                                            Dio Duggy   ─→ Neandersloth CoKhione (one boss, two archetypes)
 ```
-Every row keeps its source (`S3-note-01` or [`S3-note-02`](docs/notes/S3-note-02-archetype-bosses.md)), so an answer can cite it.
+**Provenance on every assertion** (added 2026-11-16 after peer review, [issue #1](https://github.com/pb392/is373-individual-record/issues/1)). Each relationship row, not just each entity, records where it came from and how sure it is:
 
-**Trace:** "Who won the last big tournament?" → vector search matches `S3-note-01#2` ("winner playing Fish"), and the lookup Fish ─TOPPED_AT{1st}→ T-COLUMBUS-OPEN agrees → answer: "A Fish deck won the Columbus Open [S3-note-01]" with a link to the note.
-**Where it can fail:** "last event" is relative: once a newer tournament is imported, this chunk would give an outdated answer unless the tournament's date is stored and the newest is preferred. That is why each tournament stores its date (Columbus Open: 2026-11-07 to 11-08) and answers prefer the newest. If no source is imported, a model might still "remember" an answer; the prompt and the absent-evidence check (Q5) are meant to catch that.
+| Assertion | Source · version | Event date | Imported / checked | Verification status |
+|---|---|---|---|---|
+| Fish ─TOPPED_AT{1st}→ Columbus Open | S3-note-01 · v1 | 2026-11-07/08 | 2026-11-13 | **author knowledge** (S2 results not yet posted) |
+| Athena Dimenshen ─PLAYED_AT→ Columbus Open | S3-note-01 · v1 | 2026-11-07/08 | 2026-11-13 | **author knowledge**; "most played" order is my estimate, not a count |
+| Hades Sloth ─USES_BOSS→ Neandersloth CoKhione | [S3-note-02](docs/notes/S3-note-02-archetype-bosses.md) · v1 | — | 2026-11-13 | **author knowledge** |
+| Celestleo archetype won 2026 Worlds | S1 (official) | 2026 Worlds | ☐ at import | **externally verified** |
+
+Statuses: *externally verified* (S1/S2 page), *author knowledge* (my notes), *unknown* (no source; the app must not guess). When S2 posts the Columbus Open results, those rows are re-imported as externally verified and the author-knowledge rows are kept, not overwritten.
+
+**Trace:** "Who won the last big tournament?" → vector search matches `S3-note-01#2` ("winner playing Fish"), and the lookup Fish ─TOPPED_AT{1st}→ T-COLUMBUS-OPEN returns the same claim → answer: "According to my notes as of Nov 13, a Fish deck won the Columbus Open (Nov 7–8) [S3-note-01; not yet confirmed by tournament results]". The chunk and the row come from the **same note**, so their agreement is not independent confirmation; the answer says so.
+**Where it can fail:** "last event" is relative: once a newer tournament is imported, this chunk would give an outdated answer unless the tournament's date is stored and the newest is preferred. That is why each tournament stores its date and answers say "latest **imported** event, as of <import date>". A stored date alone cannot prove that no newer event exists but hasn't been imported (checks 6–7 below). If no source is imported, a model might still "remember" an answer; the prompt and the absent-evidence check (Q5) are meant to catch that.
 
 ### 2.7 Evaluation questions
 Expected sources are recorded **before** running anything.
@@ -176,11 +186,11 @@ Expected sources are recorded **before** running anything.
 |---|---|---|---|
 | Q1 | What archetype won the 2026 Elestrals World Championship? | Direct fact | S1 / D-2026W-1 |
 | Q2 | Which deck did the first world champ play? | Paraphrase (vector) | S1 / D-2026W-1 |
-| Q3 | Which elements showed up most in the top cards at Worlds? | Aggregate fact | S1 |
-| Q4 | How many copies of [card] are in the winning list? | Count (structured) | S2 decklist → deck_cards row for D-2026W-1 |
+| Q3 | Which elements showed up most among the cards S1 lists for the Worlds top decks? | Aggregate fact over a stated set | S1 (denominator = the cards S1 lists) |
+| Q4 | How many copies of a specific card are in the winning Worlds list? | Count (structured) | S2 decklist → deck_cards row for D-2026W-1. ☐ Choose the exact card and expected quantity from the imported list at Build |
 | Q5 | What is the ban list for the 2027 season? | **Deliberately absent** | None. The app must say it lacks evidence |
 | Q6 | Which deck won the Columbus Open? | Fact from my own note | S3-note-01#2 → Fish |
-| Q7 | Which bosses are hardest to beat right now? | Paraphrase ("toughest boss cards") | S3-note-01#3 → Celestleo, Dimenshen, Neandersloth, Fish |
+| Q7 | Which bosses are hardest to beat right now? | Paraphrase + opinion | S3-note-01#3 → Celestleo, Dimenshen, Neandersloth, Fish, **attributed as my opinion** ("according to the author's notes…"), not stated as fact |
 | Q8 | Which decks run Neandersloth CoKhione? | Relationship (one boss, many archetypes); vectors alone tend to miss one | S3-note-02 → Hades Sloth and Dio Duggy |
 
 ### 2.8 Observable stories/checks
@@ -191,22 +201,33 @@ All **planned**; no pass results claimed.
 4. A logged-out visitor or member cannot reach import/admin endpoints (server returns 401/403).
 5. Every page shows the Elestrals unofficial-fan-content notice.
 
+*Added 2026-11-16 from peer review ([issue #1](https://github.com/pb392/is373-individual-record/issues/1)), also planned:*
+
+| # | Fixture (input data) | Question | Expected behavior |
+|---|---|---|---|
+| 6 | Columbus Open + a newer test event (e.g. a Premier dated 2026-11-21) | "Who won the last tournament?" | Answers with the newer event and cites it; includes "latest imported event, as of <date>" |
+| 7 | Only Columbus Open imported, newer event exists but not imported | Same | Answers Columbus **with** the "as of" coverage date, so the reader can see it may be stale |
+| 8 | Columbus Open with no decklist (S2 not posted) | "How many copies of <card> did the winner run?" | "Insufficient evidence"; never returns 0 or guesses from the archetype |
+| 9 | Empty corpus (nothing imported) | Any question, e.g. Q1 | "I have no sources loaded"; no answer from model memory |
+| 10 | Two sources disagree (e.g. S3-note-01 says Fish won; a test S2 row says another deck) | "Who won the Columbus Open?" | Cites both with versions and says they disagree, or applies the documented rule *externally verified > author knowledge* and says it did. Neither row is silently overwritten |
+
 **Changed:** created this section; decided on hybrid structured + vector search. Chose `rag.xenoshin.com` and a new app repo (my-app-studio stays untouched until graded); may retire the graded CI/CD containers at Build. After recording the droplet size (1 GB RAM), switched from PostgreSQL + pgvector to SQLite + sqlite-vec, and from a local embedding model to a hosted embedding API.  
 **Checked:** read the Fan Content Policy and S1 on 2026-11-13. Droplet size recorded 2026-11-13. T1–T6 and the course handout checked against section 2.2 on 2026-11-13: all match, no corrections.  
-**Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; link the Columbus Open S2 results once posted; record expected answers for Q1–Q5.
+**Changed 2026-11-16 (peer review, issue #1):** removed the unsupported numeric popularity rank; added per-assertion provenance and verification status; added Boss/archetype_bosses to the schema; made Q3 and Q4 specific; marked Q7 as opinion; added planned checks 6–10 for stale, missing and conflicting evidence.  
+**Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; link the Columbus Open S2 results once posted; record expected answers for Q1–Q5; at Build, save the exact chunk text/offsets and a small SQL fixture so another reviewer can reproduce the trace.
 
 ---
 
 ## Workshop notes (peer review)
-*Fill in after a real classmate walks through this index without my explanation first. AI critique doesn't count.*
+*The course counts only a real classmate's walkthrough, not AI critique. Jorge's review below was AI-assisted, and its own text says his personal confirmation is still pending. ☐ Jorge confirms the feedback matches his own uncoached walkthrough (date: ☐).*
 
 | | Career | RAG |
 |---|---|---|
-| Peer / date | ☐ | ☐ |
+| Peer / date | Jorge Sanchez · review prepared 2026-11-15 · **AI-assisted; his personal walkthrough confirmation is pending** | Same |
 | Prompt | Can you trace one portfolio choice back to an employer responsibility and my actual work? Which part is employer fact vs. my hypothesis? | Can you follow S1 through the representation, retrieval and answer? Where could missing evidence give an unsupported answer? Why hybrid over keyword-only? |
-| Their question / problem | ☐ | ☐ |
-| GitHub issue | ☐ link | ☐ link |
-| My decision + doc change | ☐ | ☐ |
+| Their question / problem | Is CI/CD a fair match for Epic's C++ tools role? Partial: shows release discipline, not engine-tool C++. Direction B is realistic only with a C++ project (Unity/C# alone wouldn't close it). Also: P1 link now redirects; P2 location unstated | The trace is clear but the note→row "agreement" isn't independent; the popularity rank had no basis; checks didn't cover stale, missing-decklist, empty-corpus or conflicting evidence; the schema lacked Boss/archetype_bosses |
+| GitHub issue | Smaller points kept in [his review](https://github.com/yungjorge/is373-individual-record/blob/main/docs/peer-review.md) | [#1 Add provenance and freshness cases](https://github.com/pb392/is373-individual-record/issues/1) |
+| My decision + doc change | Accepted. Marked P1 closed (2026-11-16), corrected the location line, kept direction B with C++ as the next action (§1.3–1.4). ☐ Peter to confirm | Accepted all five acceptance criteria: §2.5 schema, §2.6 provenance table and trace wording, §2.7 Q3/Q4/Q7, §2.8 checks 6–10. Still **planned**; nothing executed. ☐ Peter to confirm |
 
 ## AI use
-Claude helped find candidate postings, draft concept explanations and structure this record. I verified: ☐ each posting on its original page · ✓ each technical source (2026-11-13) · ☐ the Fan Content Policy reading. Conclusions and choices are mine; anything unchecked stays marked ☐.
+Claude helped find candidate postings, draft concept explanations and structure this record. I verified: ✓ each posting on its original page (P2 text read in full by me 2026-11-13; P1 recheck 2026-11-16) · ✓ each technical source (2026-11-13) · the Fan Content Policy was read on 2026-11-13 with AI help (summary in §2.4); ☐ I re-read it myself. Conclusions and choices are mine; anything unchecked stays marked ☐.
