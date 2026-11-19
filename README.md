@@ -20,7 +20,8 @@ Section 3 (group system) lives in the team's shared record, not here.
 | **Build (Review 2)** | [Hosted portfolio + finding that shaped it](#16-build-hosted-portfolio-foundation-review-2) · **observed hosted** | [Hosted app, import record, trace, checks](#29-build-hosted-import--retrieval--cited-chat-review-2) · **observed hosted + CI** |
 
 **Related repositories (existing, observed):**
-- [`pb392/is373_ci_cd`](https://github.com/pb392/is373_ci_cd): containerized site with tested QA → production promotion on my DigitalOcean droplet ([xenoshin.com](https://xenoshin.com), [qa.xenoshin.com](https://qa.xenoshin.com)).
+- [`pb392/is373_ci_cd`](https://github.com/pb392/is373_ci_cd): containerized site with tested QA → production promotion on my DigitalOcean droplet (graded; its demo containers were retired 2026-11-19 so xenoshin.com could host the portfolio; recorded evidence stays in that repo).
+- [`pb392/xenoshin-site`](https://github.com/pb392/xenoshin-site): **Build-stage code** for the hosted portfolio and RAG app.
 - [`pb392/my-app-studio`](https://github.com/pb392/my-app-studio): FastAPI app with accounts and server-enforced member/admin roles (APP-001–003).
 
 ---
@@ -57,7 +58,7 @@ Section 3 (group system) lives in the team's shared record, not here.
 | Build and operate back-end/online services (P3) | `my-app-studio` FastAPI app with REST endpoints, JWT sessions and role checks | observed (repo, CI) |
 | Keep shipped code stable; tests before release (P1, P3) | `is373_ci_cd`: unit, integration and browser tests gate image publication; QA → prod promotion | observed in CI + hosted (Oct 15, 2026) |
 | Write docs and test cases (P1) | READMEs, test evidence tables, SPEC.md in both repos | observed |
-| Resolve bugs and workflow issues for internal teams; packaging and distribution of builds (P2) | `is373_ci_cd`: automated build → test → publish → deploy pipeline (a release/distribution workflow, but in Python/Docker, not C++/Unreal); RAG app import pipeline (section 2) | observed in CI + hosted (Oct 15, 2026); RAG part **planned** |
+| Resolve bugs and workflow issues for internal teams; packaging and distribution of builds (P2) | `is373_ci_cd`: automated build → test → publish → deploy pipeline (a release/distribution workflow, but in Python/Docker, not C++/Unreal); RAG app import pipeline (section 2) | observed in CI + hosted (Oct 15, 2026); RAG import **observed hosted** (2026-11-19, §2.9) |
 | C++ / gameplay and engine-tool systems (P1, P2, P3) | — | **gap** → next action: small C++ or Unity prototype, date ☐ |
 
 ### 1.5 Portfolio outline and two lightweight layouts
