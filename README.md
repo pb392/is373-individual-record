@@ -1,6 +1,7 @@
 # IS373 Individual Record — Peter Balasis
 
-**Review 1 · Plan** · due Nov 17, 2026, 1 p.m. ET  
+**Review 2 · Build** · due Nov 24, 2026, 1 p.m. ET (Review 1 · Plan, Nov 17, is preserved below)  
+**Live:** portfolio [xenoshin.com](https://xenoshin.com) · RAG app [rag.xenoshin.com](https://rag.xenoshin.com) · code [pb392/xenoshin-site](https://github.com/pb392/xenoshin-site)  
 Section 3 (group system) lives in the team's shared record, not here.
 
 > **Status labels:** **planned** = proposed, not run · **observed locally** · **observed in CI** · **observed hosted**. At Plan, almost everything is *planned*. Sketches and expected answers below are **not** test results.
@@ -16,6 +17,7 @@ Section 3 (group system) lives in the team's shared record, not here.
 | Decisions | [Target role/reader](#13-target-role-and-reader) · [Layout choice](#15-portfolio-outline-and-two-lightweight-layouts) | [Architecture](#25-planned-architecture) |
 | Evidence / checks | [Responsibility → evidence map](#14-responsibility-to-evidence-map) | [Sample trace](#26-sample-representation-and-trace-sketch) · [Evaluation questions](#27-evaluation-questions) · [Stories/checks](#28-observable-storieschecks) |
 | Peer review | [Workshop notes](#workshop-notes-peer-review) | [Workshop notes](#workshop-notes-peer-review) |
+| **Build (Review 2)** | [Hosted portfolio + finding that shaped it](#16-build-hosted-portfolio-foundation-review-2) · **observed hosted** | [Hosted app, import record, trace, checks](#29-build-hosted-import--retrieval--cited-chat-review-2) · **observed hosted + CI** |
 
 **Related repositories (existing, observed):**
 - [`pb392/is373_ci_cd`](https://github.com/pb392/is373_ci_cd): containerized site with tested QA → production promotion on my DigitalOcean droplet ([xenoshin.com](https://xenoshin.com), [qa.xenoshin.com](https://qa.xenoshin.com)).
@@ -71,7 +73,25 @@ Section 3 (group system) lives in the team's shared record, not here.
 
 **Changed:** created this section; chose direction B and evidence-first layout (provisional).  
 **Checked:** 2026-11-13: P1, P2 and P3 open on their original pages; Riot internship closed (kept as research). 2026-11-16: P1 closed (kept as dated research, as the peer review suggested).  
-**Next:** confirm eligibility; peer walkthrough; sketch both layouts.
+**Next (at Plan):** confirm eligibility; peer walkthrough; sketch both layouts.
+
+### 1.6 Build: hosted portfolio foundation (Review 2)
+**Site:** [xenoshin.com](https://xenoshin.com) · **source:** [`portfolio/`](https://github.com/pb392/xenoshin-site/tree/main/portfolio) · **status: observed hosted** (2026-11-19, commit [`84876ad`](https://github.com/pb392/xenoshin-site/commit/84876ad))
+
+| Required part | Where | Status |
+|---|---|---|
+| Introduction + target direction | [Home](https://xenoshin.com): "I build and test the systems behind games", aiming for game services & tools engineering | observed hosted |
+| Navigation | Home · Projects · About · GitHub on every page, plus a skip link | observed hosted |
+| Project sections | [Elestrals Meta Assistant](https://xenoshin.com/projects/elestrals-rag.html) (**Live · case study in progress**), [Tested release pipeline](https://xenoshin.com/projects/ci-cd.html) (**Completed**), [Group content system](https://xenoshin.com/projects/group.html) (**In progress**, placeholder), C++ game tool (**Planned**) | observed hosted |
+| About + skills with evidence | [About](https://xenoshin.com/about.html): each skill links to its project; C++ listed as a gap, not a claim | observed hosted |
+
+**Career-research finding that shaped the site:** all three postings ask for C++, and reading Epic's tools internship in full (§1.1) showed it is C++ engine work. So the home page leads with work I can prove (tested pipeline, live RAG service) and lists a C++ tool as the next project instead of claiming the skill. The layout follows the §1.5 decision (evidence-first: projects reachable in one click). The site states this on the home page under "Why the site looks like this".
+
+**Labels kept honest:** the RAG case study is marked *in progress*; the group project page is a placeholder that says so; the C++ tool is *planned*. The CI/CD demo sites were retired after grading, and its case study says so and links to the recorded evidence.
+
+**Changed:** built the evidence-first layout from §1.5 (layout 1); hosted it on xenoshin.com in place of the graded CI/CD demo; added status badges.  
+**Checked:** 2026-11-19: CI [run 44592155422](https://github.com/pb392/xenoshin-site/actions/runs/44592155422) passed `scripts/check_site.py` (6 pages: every internal link and anchor resolves, one `h1`, `lang`, viewport) and served the built image; [hosted check run](https://github.com/pb392/xenoshin-site/actions/runs/44594983532) fetched https://xenoshin.com over HTTPS. Opened in a browser: home, projects and about render.  
+**Next:** keyboard-only and mobile walkthrough with notes (Release); add the group case study when that work exists; a real reader test of whether the target role is clear in 10 seconds.
 
 ---
 
@@ -214,7 +234,39 @@ All **planned**; no pass results claimed.
 **Changed:** created this section; decided on hybrid structured + vector search. Chose `rag.xenoshin.com` and a new app repo (my-app-studio stays untouched until graded); may retire the graded CI/CD containers at Build. After recording the droplet size (1 GB RAM), switched from PostgreSQL + pgvector to SQLite + sqlite-vec, and from a local embedding model to a hosted embedding API.  
 **Checked:** read the Fan Content Policy and S1 on 2026-11-13. Droplet size recorded 2026-11-13. T1–T6 and the course handout checked against section 2.2 on 2026-11-13: all match, no corrections.  
 **Changed 2026-11-16 (peer review, issue #1):** removed the unsupported numeric popularity rank; added per-assertion provenance and verification status; added Boss/archetype_bosses to the schema; made Q3 and Q4 specific; marked Q7 as opinion; added planned checks 6–10 for stale, missing and conflicting evidence.  
-**Next:** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; link the Columbus Open S2 results once posted; record expected answers for Q1–Q5; at Build, save the exact chunk text/offsets and a small SQL fixture so another reviewer can reproduce the trace.
+**Next (at Plan):** get written copies of the Elestrals and TopElestrals permissions; check droplet RAM; link the Columbus Open S2 results once posted; record expected answers for Q1–Q5; at Build, save the exact chunk text/offsets and a small SQL fixture so another reviewer can reproduce the trace.
+
+### 2.9 Build: hosted import → retrieval → cited chat (Review 2)
+**App:** [rag.xenoshin.com](https://rag.xenoshin.com) · **code:** [`rag/`](https://github.com/pb392/xenoshin-site/tree/main/rag) · **revision:** [`84876ad`](https://github.com/pb392/xenoshin-site/commit/84876ad) (shown in the app footer and at [/health](https://rag.xenoshin.com/health)) · **status: observed hosted** 2026-11-19
+
+| Stage | Actual evidence | Status |
+|---|---|---|
+| Source manifest + import | [Manifest](https://github.com/pb392/xenoshin-site/blob/main/rag/corpus/manifest.json) (4 sources with owner, permission, version, status) · live [import record](https://rag.xenoshin.com/import-record): 4 sources, 16 chunks, 16 embedded, 3 tournaments, 12 placements, 28 decklist rows, 12 boss links | observed hosted |
+| Repeat import | Test `test_repeat_import_creates_no_duplicates_and_embeds_nothing` and admin re-import test (0 new, 0 changed, 0 embedded) | observed in CI |
+| Sample representation | Text chunks: [S3-note-02 source page](https://rag.xenoshin.com/sources/S3-note-02) · structured rows: [winning decklist table](https://rag.xenoshin.com/sources/S2-premier-2026-10-24#deck-d-premier-2026-10-24-1) | observed hosted |
+| Query → retrieval → answer trace | [Live question](https://rag.xenoshin.com/?q=Which%20decks%20run%20Neandersloth%20CoKhione%3F), then open "How this answer was found": evidence IDs, keyword/vector/fusion scores, verification status and the exact prompt sent to Gemini | observed hosted |
+| Cited answers + evaluation | [Hosted results, 9/9 passed](https://github.com/pb392/xenoshin-site/blob/main/rag/eval/hosted/2026-11-19/results.md) ([raw JSON](https://github.com/pb392/xenoshin-site/blob/main/rag/eval/hosted/2026-11-19/results.json)), expected answers [written first](https://github.com/pb392/xenoshin-site/blob/main/rag/eval/questions.json) | observed hosted |
+| Missing evidence | Q5 (2027 ban list) → "I don't have a source for that…"; C8 (Columbus card count, no decklist) → refused, not "0 copies" | observed hosted |
+| Tests | 23 tests ([CI run 44592155422](https://github.com/pb392/xenoshin-site/actions/runs/44592155422)): import idempotence, re-embed only changed text, boss relationship, exact count, missing decklist ≠ 0, latest event + coverage line, newer event, conflicting sources, empty corpus, citation removal/withholding, admin 401/403, rate limit, source anchors | observed in CI |
+
+**Real trace (hosted, 2026-11-19):** question "Which decks run Neandersloth CoKhione?" → SQL lookup `S3-note-02#boss-neandersloth-cokhione` (author knowledge) + fused keyword/vector chunks `S3-note-02#5`, `S3-note-02#2` → Gemini answer: "According to the author's notes, the archetypes that run Neandersloth CoKhione are Dio Duggy (Dionysus Duggy) and Hades Sloth [S3-note-02#boss-neandersloth-cokhione; S3-note-02#5; S3-note-02#2]". The citation check confirmed all three IDs were in the retrieved evidence. This is Q8 from §2.7: the relationship question that vectors alone tend to half-answer.
+
+**Changes from the Plan, and why:**
+- **No sqlite-vec:** with 16 chunks, cosine similarity over vectors stored in SQLite is simpler and needs no native extension. Revisit if the corpus grows past a few thousand chunks.
+- **S2 = October 24 Premier, not the Columbus Open:** Columbus results still weren't on TopElestrals (checked 2026-11-19), so the newest posted Premier was imported, with its full winning decklist. Q4 now asks about that deck. Player handles are deliberately not stored.
+- **Admin token instead of accounts:** import is the only privileged action, so a server-only bearer token protects it (401 without, 403 wrong). Accounts from `my-app-studio` weren't needed for one endpoint.
+- **New repo + retired CI/CD containers** as decided at Plan, with models `gemini-embedding-2` (768 dims) and `gemini-3.5-flash-lite` (current Gemini model list checked 2026-11-19).
+
+**Mocks and limits (labeled):**
+- The automated tests use **test-only** hash embeddings and scripted generators. They check the pipeline's logic, not Gemini's quality. Only the hosted evaluation uses the real models.
+- 9 questions is a small check; a pass means correct status, citation source and key terms, not that every sentence is true.
+- Columbus Open facts are **author knowledge** only. The Worlds event date isn't in S1, so the app shows the article date (2026-03-27).
+- Free-tier Gemini: Google may use free-tier inputs; only public tournament data is sent. Public use is capped (300-char questions, 8/min per visitor, 300/day).
+- Not yet shown: persistence across a container restart, keyboard/mobile checks, written permission copies (Release stage).
+
+**Changed:** built and hosted the app; switched the S2 event and dropped sqlite-vec (above).  
+**Checked:** 2026-11-19: CI 23/23 tests + container smoke test; hosted evaluation 9/9; live answer and trace opened in a browser; `/admin/import` returns 401 over HTTPS.  
+**Next:** add **play.elestrals.com** as source S4, the official site where Premier decklists are submitted, which also has the Worlds winning decklist dated 2026-03-21 (fixes the date limit); import the Columbus Open once posted; restart-persistence and repeat-import checks on the server; save written permissions; a real peer test of the live app.
 
 ---
 
@@ -231,3 +283,5 @@ All **planned**; no pass results claimed.
 
 ## AI use
 Claude helped find candidate postings, draft concept explanations and structure this record. I verified: ✓ each posting on its original page (P2 text read in full by me 2026-11-13; P1 recheck 2026-11-16) · ✓ each technical source (2026-11-13) · the Fan Content Policy was read on 2026-11-13 with AI help (summary in §2.4); ☐ I re-read it myself. Conclusions and choices are mine; anything unchecked stays marked ☐.
+
+**Build (Review 2):** Claude wrote the app, portfolio, tests and deploy scripts in [pb392/xenoshin-site](https://github.com/pb392/xenoshin-site) and ran the checks listed in §1.6 and §2.9. I chose Gemini and xenoshin.com, created the repo, added the API key and ran the server setup myself, and supplied the meta notes and boss list. The hosted results above are actual runs, not AI claims.
