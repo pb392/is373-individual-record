@@ -1,10 +1,10 @@
 # IS373 Individual Record — Peter Balasis
 
-**Review 2 · Build** · due Nov 24, 2026, 1 p.m. ET (Review 1 · Plan, Nov 17, is preserved below)  
-**Live:** portfolio [xenoshin.com](https://xenoshin.com) · RAG app [rag.xenoshin.com](https://rag.xenoshin.com) · code [pb392/xenoshin-site](https://github.com/pb392/xenoshin-site)  
+**Review 3 · Checked Release** · due Dec 3, 2026, 1 p.m. ET (Review 1 · Plan and Review 2 · Build are preserved below)  
+**Live:** portfolio [xenoshin.com](https://xenoshin.com) · RAG app [rag.xenoshin.com](https://rag.xenoshin.com) · code [pb392/xenoshin-site](https://github.com/pb392/xenoshin-site) · release **v1.0.0** = commit [`0a40390`](https://github.com/pb392/xenoshin-site/commit/0a40390) (app evaluated at [`753f691`](https://github.com/pb392/xenoshin-site/commit/753f691); the release commit only adds the results to the portfolio page)  
 Section 3 (group system) lives in the team's shared record, not here.
 
-> **Status labels:** **planned** = proposed, not run · **observed locally** · **observed in CI** · **observed hosted**. At Plan, almost everything is *planned*. Sketches and expected answers below are **not** test results.
+> **Status labels:** **planned** = proposed, not run · **observed locally** · **observed in CI** · **observed hosted**. Sections 1.1–1.5 and 2.1–2.8 are the Plan (mostly *planned*); 1.6 and 2.9 are the Build; **1.7 and 2.10 are the Checked Release**, where every result is labeled local, CI or hosted.
 
 ---
 
@@ -18,10 +18,11 @@ Section 3 (group system) lives in the team's shared record, not here.
 | Evidence / checks | [Responsibility → evidence map](#14-responsibility-to-evidence-map) | [Sample trace](#26-sample-representation-and-trace-sketch) · [Evaluation questions](#27-evaluation-questions) · [Stories/checks](#28-observable-storieschecks) |
 | Peer review | [Workshop notes](#workshop-notes-peer-review) | [Workshop notes](#workshop-notes-peer-review) |
 | **Build (Review 2)** | [Hosted portfolio + finding that shaped it](#16-build-hosted-portfolio-foundation-review-2) · **observed hosted** | [Hosted app, import record, trace, checks](#29-build-hosted-import--retrieval--cited-chat-review-2) · **observed hosted + CI** |
+| **Checked Release (Review 3)** | [Case studies, links, keyboard and phone checks](#17-checked-release-portfolio-review-3) · **observed hosted + CI** | [Version, setup, persistence, repeat import, permissions, evaluation](#210-checked-release-rag-app-review-3) · **observed hosted + CI** |
 
 **Related repositories (existing, observed):**
 - [`pb392/is373_ci_cd`](https://github.com/pb392/is373_ci_cd): containerized site with tested QA → production promotion on my DigitalOcean droplet (graded; its demo containers were retired 2026-11-19 so xenoshin.com could host the portfolio; recorded evidence stays in that repo).
-- [`pb392/xenoshin-site`](https://github.com/pb392/xenoshin-site): **Build-stage code** for the hosted portfolio and RAG app.
+- [`pb392/xenoshin-site`](https://github.com/pb392/xenoshin-site): code for the hosted portfolio and RAG app, released as **v1.0.0**.
 - [`pb392/my-app-studio`](https://github.com/pb392/my-app-studio): FastAPI app with accounts and server-enforced member/admin roles (APP-001–003).
 
 ---
@@ -94,6 +95,22 @@ Section 3 (group system) lives in the team's shared record, not here.
 **Checked:** 2026-11-19: CI [run 44592155422](https://github.com/pb392/xenoshin-site/actions/runs/44592155422) passed `scripts/check_site.py` (6 pages: every internal link and anchor resolves, one `h1`, `lang`, viewport) and served the built image; [hosted check run](https://github.com/pb392/xenoshin-site/actions/runs/44594983532) fetched https://xenoshin.com over HTTPS. Opened in a browser: home, projects and about render.  
 **Next:** keyboard-only and mobile walkthrough with notes (Release); add the group case study when that work exists; a real reader test of whether the target role is clear in 10 seconds.
 
+### 1.7 Checked Release: portfolio (Review 3)
+**Site:** [xenoshin.com](https://xenoshin.com) · **release:** v1.0.0, commit [`0a40390`](https://github.com/pb392/xenoshin-site/commit/0a40390) · **status: observed hosted + CI** (2026-11-23)
+
+| Requirement | Evidence | Where observed |
+|---|---|---|
+| Readable, accurate case studies | [Elestrals Meta Assistant](https://xenoshin.com/projects/elestrals-rag.html) now shows measured results, each labeled local / CI / hosted and linked to the run, plus limits and next steps. Badge changed from "case study in progress" to "checked release v1.0.0". [CI/CD case study](https://xenoshin.com/projects/ci-cd.html) unchanged (graded work, links to its recorded evidence). Group page stays an honest placeholder | hosted |
+| Working evidence, project and contact links | [Link check](https://github.com/pb392/xenoshin-site/blob/main/rag/eval/hosted/2026-11-23T1959Z/links.md) opened every link on 5 pages: **26 unique links, 0 broken**. LinkedIn answers automated requests with 999, so it is marked "checked by hand" (opened in Peter's walkthrough). Email and LinkedIn were added to every page today | hosted |
+| Navigation and keyboard use | [`check_ui.py`](https://github.com/pb392/xenoshin-site/blob/main/scripts/check_ui.py): from the top of each page, Tab reaches every link and control, the skip link is the first stop on pages with navigation, and every stop shows a visible focus outline. **6/6 portfolio pages pass** | CI ([run 45253619688](https://github.com/pb392/xenoshin-site/actions/runs/45253619688)) + [hosted](https://github.com/pb392/xenoshin-site/blob/main/rag/eval/hosted/2026-11-23T1959Z/ui.md) |
+| Mobile readability | Same script at 375 × 740 px: no sideways scrolling, body text at least 14 px. **6/6 pass**. On its first run the check found a RAG source page that scrolled sideways on phones (long URLs); fixed in [`db8086c`](https://github.com/pb392/xenoshin-site/commit/db8086c) | CI + hosted |
+| The check can fail | Run against a deliberately broken page (no focus outline, an unreachable link, a 900 px block): it reported all four problems and exited 1 | local |
+| Human walkthrough | [Manual walkthrough](docs/checks/manual-walkthrough-2026-11-23.md) by me on laptop and phone: navigation, links, contact links, asking questions. Everything worked | hosted, manual |
+
+**Changed:** added contact links (email, LinkedIn); rewrote the RAG case study around dated results; added automated keyboard, phone-width and link checks to CI and to the hosted check.  
+**Checked:** 2026-11-23: CI and hosted checks above; my own laptop and phone walkthrough.  
+**Next:** a C++ project (the gap from §1.3) as the next portfolio entry; the group case study once that work exists; a real recruiter-style reader test (can they tell the target role in 10 seconds?).
+
 ---
 
 ## 2. Individual RAG app + technical research
@@ -142,7 +159,7 @@ Governing rule: [Elestrals Fan Content Policy](https://www.elestrals.com/fan-con
 | S2 | [TopElestrals](https://www.topelestrals.com) tournament results and decklists | TopElestrals site owner | **Direct permission from the site owner** (personal contact) | Decklists (deck → card → quantity) and placements, attributed and linked. Articles by other authors are excluded unless their writers agree |
 | S3 | My own deck/strategy notes, e.g. [S3-note-01](docs/notes/S3-note-01-meta-overview.md) (2026-11-13) | Me | Own work | Main text corpus. Each note cites the S1/S2 facts it relies on |
 
-**Permission record:** both permissions were given to me directly. ☐ Before Build, get each in writing (a short email or DM reply) and save it, or a screenshot with personal details removed, as `docs/permissions/` evidence, recording who confirmed, the date and what they agreed to. This also settles the policy's "game mechanics" consent clause. No card text or card art is stored. Every page shows the required unofficial-fan-content notice.
+**Permission record:** both permissions were given to me directly. ✓ **Written copies saved 2026-11-23** in [docs/permissions](docs/permissions/README.md) (see §2.10). *(Plan text:)* Before Build, get each in writing (a short email or DM reply) and save it, or a screenshot with personal details removed, as `docs/permissions/` evidence, recording who confirmed, the date and what they agreed to. This also settles the policy's "game mechanics" consent clause. No card text or card art is stored. Every page shows the required unofficial-fan-content notice.
 
 ### 2.5 Planned architecture
 ```
@@ -269,6 +286,43 @@ All **planned**; no pass results claimed.
 **Checked:** 2026-11-19: CI 23/23 tests + container smoke test; hosted evaluation 9/9; live answer and trace opened in a browser; `/admin/import` returns 401 over HTTPS.  
 **Next:** add **play.elestrals.com** as source S4, the official site where Premier decklists are submitted, which also has the Worlds winning decklist dated 2026-03-21 (fixes the date limit); import the Columbus Open once posted; restart-persistence and repeat-import checks on the server; save written permissions; a real peer test of the live app.
 
+### 2.10 Checked Release: RAG app (Review 3)
+**App:** [rag.xenoshin.com](https://rag.xenoshin.com) · **release:** v1.0.0 · **evaluated revision:** [`753f691`](https://github.com/pb392/xenoshin-site/commit/753f691) (shown in the app footer and at [/health](https://rag.xenoshin.com/health); the release commit `0a40390` changes only the portfolio page and the results index) · **corpus:** 2026-11-23.2, 7 sources
+
+| Requirement | Evidence | Where observed |
+|---|---|---|
+| Hosted app, linked version | Footer and [/health](https://rag.xenoshin.com/health) show the running commit; each hosted result file names the commit it tested | hosted |
+| Repeatable setup | [Operations guide](https://github.com/pb392/xenoshin-site/blob/main/docs/operations.md): setup from nothing, updates, backup and restore, rollback, key and token changes, troubleshooting. [`setup.sh`](https://github.com/pb392/xenoshin-site/blob/main/deploy/setup.sh) is what I ran on the server on 2026-11-19 | hosted (setup), CI (scripts checked) |
+| Persistent storage | [Import record](https://rag.xenoshin.com/import-record) lists every run since the 2026-11-19 one (corpus 2026-11-19.1), kept through every deployment on 2026-11-23. The database lives in a Docker volume, not in the image. (The page showed only the newest 5 runs, which hid the 11-19 run; it now lists all, fixed in [`ead96cf`](https://github.com/pb392/xenoshin-site/commit/ead96cf)) | hosted |
+| Repeat import | Every redeploy with no data changes (runs 4 onward on the import record): **0 new, 0 changed, 27 unchanged, 0 embedded**. Run 2 shows the other case: only the 10 new chunks were embedded, the 16 old ones reused | hosted |
+| Restart and backup/restore | CI drill on a named volume: restart keeps the history; repeat import is 0 new / 0 changed; back up → delete the container **and** volume → restore → history is back. Passes on every change ([run 45253619688](https://github.com/pb392/xenoshin-site/actions/runs/45253619688)) | CI |
+| Permission checks | `POST /admin/import` returns 401 without the token (CI smoke test and every hosted check) and 403 with a wrong one (CI test) | CI + hosted |
+| Real source references | Manifest: [7 sources](https://rag.xenoshin.com/sources) with owner, permission, version and status. New: **S4** Worlds winning decklist (play.elestrals.com), **S5** Nov 21 Premier top 8 + winning decklist (TopElestrals; 76 players; no player names), **S3-note-03** my archetype names and Hestia Spiders lists. S1 is now version 2: the Worlds date is 2026-03-21 from S4, not the article date (fixes the §2.9 limit) | hosted |
+| Written permissions | [docs/permissions](docs/permissions/README.md): TopElestrals developer ("as long as it's for a college class or similar") and an Elestrals team member (staff tag visible), both 2026-11-23, names and pictures blurred. Closes the ☐ in §2.4 | — |
+| Query evaluation incl. missing evidence | [**17/17**](https://github.com/pb392/xenoshin-site/blob/main/rag/eval/hosted/2026-11-23T1959Z/results.md) on the live site. R1–R8 were [added before the run](https://github.com/pb392/xenoshin-site/blob/main/rag/eval/questions.json); 6 questions test missing evidence (2027 ban list, an un-imported Dec 5 event, card counts with no decklist ×2, card text, a prediction): all refused or reported unknown, never "0 copies" | hosted |
+| Logic tests | 19 tests with test-only embeddings, incl. new ones for the Nov 21 data, stripping "[8]"-style brackets, and Gemini read timeouts | local + CI |
+
+**Every hosted run is kept** ([run index](https://github.com/pb392/xenoshin-site/blob/main/rag/eval/hosted/README.md)), not only the passing one:
+
+| Run (UTC) | App | Result | What happened |
+|---|---|---|---|
+| 11-23 16:46 | d6ae784 | 17/17 | First run with the Nov 21 data |
+| 11-23 17:36 | d6ae784 | 16/17 | Same app, R1 "Who won the November 21 Premier?" refused: no player names are stored, and the model sometimes read that as missing evidence. Added prompt rule 8 (answer with the deck, say names aren't stored) |
+| 11-23 18:51 | fa65c38 | 16/17 | Q1 got HTTP 502 because the server redeployed during the run (import run 4). R1 now answered but ended in a stray "[8]" (it cited the rule number); the citation check now strips any unrecognised bracket |
+| 11-23 19:04 | d196dc7 | 17/17 | 23 links ok, 10/10 pages pass |
+| 11-23 19:21 | ead96cf | 16/17 | Q4 got HTTP 500 once (correct when I asked it again by hand): a Gemini read timeout wasn't caught. Now retried, then shown as "service unavailable" |
+| 11-23 19:33 | 188f400 | 17/17 | Link check flagged 4 links: GitHub 503 and LinkedIn 429 from opening pages quickly, not broken pages. Now retried |
+| 11-23 19:42 | 188f400 | 16/17 | Q1 got HTTP 502: the server restarted for a new release during the run. The check now waits for the current release first |
+| 11-23 19:59 | 753f691 | **17/17** | **Release run:** 26 links, 0 broken; 10/10 pages pass keyboard and phone checks ([workflow run](https://github.com/pb392/xenoshin-site/actions/runs/45254614136)) |
+
+**Incident found by the hosted check (2026-11-23):** the server stopped deploying after 16:44. Its log showed `auto-deploy.sh: Permission denied` every 2 minutes: setup had made the script executable, but the first automatic update's `git reset --hard` restored the mode stored in Git (not executable). Fixed in [`3db0566`](https://github.com/pb392/xenoshin-site/commit/3db0566) and [`fa65c38`](https://github.com/pb392/xenoshin-site/commit/fa65c38): scripts stored as executable, new cron lines call them with `sh`, CI fails if the mode is lost, and the script now retries a failed build instead of skipping it. I ran it once by hand; since then the server has updated itself for every release (d196dc7 through 0a40390, no manual step).
+
+**Mocks and limits (labeled):** logic tests use fake embeddings, so only the hosted runs measure Gemini. 17 questions is small, and the model is not deterministic: the same question passed and failed on the same app (runs 16:46 vs 17:36), so one passing run is not a guarantee. Each update restarts the single app container, so there are a few seconds of HTTP 502 per deploy. Only winning decklists are imported. Columbus Open is still author knowledge only. Archetype names for Nov 21 are mine; TopElestrals shows only elements, and each row says so.
+
+**Changed:** imported S4, S5 and S3-note-03; added written permissions; keyboard, phone, link and backup/restore checks; operations guide and backup script; fixed the deploy permission bug, the phone overflow, "who won" refusals, stray brackets, the uncaught Gemini timeout, the 5-run import page, and the link and hosted checks' false failures.  
+**Checked:** 2026-11-23: hosted run 19:59Z 17/17; CI run 45253619688 (all steps); hosted import record (all runs); server deploys on its own again.  
+**Next:** import new Premiers as TopElestrals posts them (Columbus Open when available); run the hosted check on a schedule to catch model drift; grow the question set from real player questions.
+
 ---
 
 ## Workshop notes (peer review)
@@ -286,3 +340,5 @@ All **planned**; no pass results claimed.
 Claude helped find candidate postings, draft concept explanations and structure this record. I verified: ✓ each posting on its original page (P2 text read in full by me 2026-11-13; P1 recheck 2026-11-16) · ✓ each technical source (2026-11-13) · the Fan Content Policy was read on 2026-11-13 with AI help (summary in §2.4); ☐ I re-read it myself. Conclusions and choices are mine; anything unchecked stays marked ☐.
 
 **Build (Review 2):** Claude wrote the app, portfolio, tests and deploy scripts in [pb392/xenoshin-site](https://github.com/pb392/xenoshin-site) and ran the checks listed in §1.6 and §2.9. I chose Gemini and xenoshin.com, created the repo, added the API key and ran the server setup myself, and supplied the meta notes and boss list. The hosted results above are actual runs, not AI claims.
+
+**Checked Release (Review 3):** Claude imported the new sources, wrote the keyboard/phone/link checks, the backup script and operations guide, and fixed the bugs those checks found. I got both written permissions and blurred the screenshots, supplied the archetype names and Hestia Spiders decklists, did the laptop and phone walkthrough, and ran the server commands that found and fixed the deploy problem. Every result in §1.7 and §2.10 links to an actual run.
